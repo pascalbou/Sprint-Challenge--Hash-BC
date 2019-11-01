@@ -2,6 +2,7 @@ import hashlib
 import requests
 
 import sys
+import json
 
 from uuid import uuid4
 
@@ -24,8 +25,16 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
-    #  TODO: Your code here
+    print(last_proof)
+    # stringify and encode the proof gotten from server
+    block_string = f'{last_proof}'.encode()
+    # get the last hash for comparison in valid_proof
+    last_hash = hashlib.sha256(block_string).hexdigest()
+
+    # start at number different from 0
+    proof = 20000000
+    while valid_proof(last_hash, proof) is False:
+        proof += 1
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -39,13 +48,12 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...AE9123456, new hash 123456888...
     """
 
-    # set a guess
-    guess = f'{last_hash}{proof}'.encode()
-    # hash the guess
+    # stringify and encode the supposed proof answer
+    guess = f'{proof}'.encode()
+    # hash the supposed proof
     guess_hash = hashlib.sha256(guess).hexdigest()
-
-    # return guess validity
-    return guess_hash[:6] == last_hash[:6]
+    # check if first 6 digits of new hash == last 6 digits of last_hash
+    return guess_hash[:6] == last_hash[-6:]
 
 
 if __name__ == '__main__':
