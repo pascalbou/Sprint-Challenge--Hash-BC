@@ -9,9 +9,25 @@ from hashtables import (HashTable,
 def get_indices_of_item_weights(weights, length, limit):
     ht = HashTable(16)
 
-    """
-    YOUR CODE HERE
-    """
+    # BAD algorithm
+    # sort the weights
+    # loop start from highest
+    # while high + number not equal to limit
+        # if high + number > limit
+            # break the loop
+        # number increment
+    # return 0=high, 1=number
+
+    # following hints
+    # store in ht
+    for i in range(len(weights)):
+        hash_table_insert(ht, weights[i], i)
+
+    for i in range(len(weights)):
+        
+
+    for i in range(len(weights), -1):
+        print(weights[i])
 
     return None
 
